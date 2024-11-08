@@ -3,6 +3,14 @@ const app = express()
 const PORT = process.env.PORT || 3000
 app.use(express.json())
 
+
+app.set('view engine', 'pug')
+app.set('views', './views') // default - optional 
+
+app.get('/', (req, res) => {
+    res.render('index', { title: 'my express app', message: 'hello'})
+})
+
 // create a library full of books
 const books = [
     {id: 1, title: 'Akata Witch', author: 'Nnedi Okorafor'}, 
@@ -27,9 +35,18 @@ app.get('/books/:title', (req, res) => {
     
 })
 
-// post a book with a name?
 app.get('/books/:title', (res, req) => {
-    
+    const reqBook = req.params.title.toLocaleLowerCase() // what the user types in 
+    const searchedBook = books.find((book) => book.title.toLocaleLowerCase() === reqBook)
+})
+
+app.post('/books/:title', (res, req) => {
+    const { id, title, author } = req.body
+    if (!id || !title || !author) {
+        return res.status(404).send("all fields are required")
+    } else {
+        res.send(title, author)
+    }
 })
 
 // delete book with a name? 

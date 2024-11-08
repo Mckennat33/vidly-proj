@@ -2,6 +2,11 @@ const express = require("express")
 const app = express()
 const PORT = process.env.PORT || 3000
 app.get(express.json())
+const books = require('/Users/thomasmckenna/vidly-proj/router/books.js')
+
+app.use("/books/", books)
+
+
 
 const mockUsers = [
     { id: 1, username: "thomas", displayName: "Thomas"},
